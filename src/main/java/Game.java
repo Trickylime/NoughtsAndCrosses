@@ -50,6 +50,13 @@ public class Game {
             String input = scanner.nextLine().toUpperCase();
 
             if (input.equals("X") || input.equals("O")) {
+                currentPlayer.setNoughtsOrCrosses(input);
+                String opposite = input.equals("X") ? "O" : "X";
+
+                if (currentPlayer == playerOne)
+                    playerTwo.setNoughtsOrCrosses(opposite);
+                else
+                    playerOne.setNoughtsOrCrosses(opposite);
                 break;
             } else {
                 System.out.println("Invalid input. Please enter either X or O.");
@@ -61,21 +68,22 @@ public class Game {
 
     public static void startGame() {
 
+        int turnCount = 0;
         boolean gameOver = false;
         while (!gameOver) {
             System.out.println(gameBoard.printBoard());
             System.out.printf("It's %s's turn! Please enter a number of where you like to make your move%n", currentPlayer.getName());
             while (true) {
+                turnCount++;
+                System.out.println("turn count = " + turnCount);
                 int input = scanner.nextInt();
                 if (input > 0 && input < 10) {
                     System.out.printf("%s has chosen %s%n", currentPlayer.getName(), input);
 
-                    if (gameBoard.updateBoard(input)) {
-                        if (currentPlayer == playerOne) currentPlayer = playerTwo;
-                        else currentPlayer = playerOne;
+                    if (gameBoard.updateBoard(input, currentPlayer)) {
+                        currentPlayer = currentPlayer == playerOne ? playerTwo : playerOne;
                         break;
-                    }
-                    else System.out.println("Invalid input. That position has already been used. " +
+                    } else System.out.println("Invalid input. That position has already been used. " +
                             "Please enter a number that's available on the board.");
 
                 } else {
@@ -83,7 +91,12 @@ public class Game {
                 }
             }
 
-
+            if (turnCount >= 5) {
+                System.out.println("checking for winner");
+                if (gameBoard.checkForWinner(currentPlayer)) break;
+            }
         }
+
+        System.out.println(currentPlayer.getName() + " is the winner!");
     }
 }
