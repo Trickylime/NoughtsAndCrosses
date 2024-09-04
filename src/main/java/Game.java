@@ -21,8 +21,6 @@ public class Game {
         gameBoard = initializeGame();
 
         startGame();
-
-
     }
 
     private static void createPlayers() {
@@ -44,7 +42,6 @@ public class Game {
         int select = random.nextInt(0, 2);
         currentPlayer = List.of(playerOne, playerTwo).get(select);
 
-        //TODO: store which piece the current random player has selected to add to the Board class
         System.out.printf("%s please select if you want X's or O's%n", currentPlayer.getName());
         while (true) {
             String input = scanner.nextLine().toUpperCase();
@@ -63,7 +60,10 @@ public class Game {
             }
         }
 
-        return new Board(playerOne.getName(), "X", playerTwo.getName(), "O");
+        return new Board(playerOne.getName(),
+                playerOne.getNoughtsOrCrosses(),
+                playerTwo.getName(),
+                playerTwo.getNoughtsOrCrosses());
     }
 
     public static void startGame() {
@@ -71,16 +71,26 @@ public class Game {
         int turnCount = 0;
         boolean gameOver = false;
         while (!gameOver) {
+
             System.out.println(gameBoard.printBoard());
             System.out.printf("It's %s's turn! Please enter a number of where you like to make your move%n", currentPlayer.getName());
+
             while (true) {
                 turnCount++;
-                System.out.println("turn count = " + turnCount);
+//                System.out.println("turn count = " + turnCount);
                 int input = scanner.nextInt();
                 if (input > 0 && input < 10) {
                     System.out.printf("%s has chosen %s%n", currentPlayer.getName(), input);
 
+
                     if (gameBoard.updateBoard(input, currentPlayer)) {
+                        if (turnCount >= 5) {
+//                            System.out.println("checking for winner");
+                            if (gameBoard.checkForWinner(currentPlayer)) {
+                                gameOver = true;
+                                gameBoard.setWinner(currentPlayer);
+                            }
+                        }
                         currentPlayer = currentPlayer == playerOne ? playerTwo : playerOne;
                         break;
                     } else System.out.println("Invalid input. That position has already been used. " +
@@ -91,12 +101,9 @@ public class Game {
                 }
             }
 
-            if (turnCount >= 5) {
-                System.out.println("checking for winner");
-                if (gameBoard.checkForWinner(currentPlayer)) break;
-            }
+
         }
 
-        System.out.println(currentPlayer.getName() + " is the winner!");
+        System.out.println(gameBoard.getWinner().getName() + " is the winner!");
     }
 }

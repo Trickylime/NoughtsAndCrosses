@@ -4,7 +4,16 @@ public class Board {
     private String playerOnePiece;
     private String playerTwo;
     private String playerTwoPiece;
+    private Player winner;
     private String[][] board = new String[3][3];
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
 
     public Board(String playerOne, String playerOnePiece, String playerTwo, String playerTwoPiece) {
         this.playerOne = playerOne;
@@ -66,15 +75,26 @@ public class Board {
     }
 
     public boolean horizontalWin(String playerPiece) {
-
         for (int i = 0; i < board.length; i++) {
             int count = 0;
-            for (int j = 0; j < board.length; j++) {
-                if (board[i][j].equals(playerPiece)) count++;
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j].equals(playerPiece)) {
+                    count++;
+//                    System.out.println(board[i][j] + " piece found");
+//                    System.out.println("found " + playerPiece + " Count=" + count);
+
+                } else {
+//                    System.out.println("break " + playerPiece + " doesn't match " + board[i][j]);
+                    break;
+                }
             }
-            return count == 3;
+            if(count == 3) {
+                return true;
+            }
+
         }
         return false;
+
     }
 
     public boolean verticalWin(String playerPiece) {
@@ -83,8 +103,10 @@ public class Board {
             int count = 0;
             for (int j = 0; j < board.length; j++) {
                 if (board[j][i].equals(playerPiece)) count++;
+                else break;
             }
-            return count == 3;
+            if(count == 3)
+                return true;
         }
         return false;
     }
