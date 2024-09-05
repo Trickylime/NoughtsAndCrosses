@@ -103,12 +103,25 @@ public class Board {
 
     public boolean diagonalWin(String playerPiece) {
 
+        //Check top left to bottom right
         int j = 0;
         int count = 0;
         for (String[] strings : board) {
             if (strings[j].equals(playerPiece)) {
                 count++;
                 j++;
+
+                if (count == 3) return true;
+            } else break;
+        }
+
+        //Check top right to bottom left
+        j = 2;
+        count = 0;
+        for (String[] strings : board) {
+            if (strings[j].equals(playerPiece)) {
+                count++;
+                j--;
             } else break;
         }
         return count == 3;
