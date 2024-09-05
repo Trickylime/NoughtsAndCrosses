@@ -77,7 +77,6 @@ public class Game {
 
             while (true) {
                 turnCount++;
-//                System.out.println("turn count = " + turnCount);
                 int input = scanner.nextInt();
                 if (input > 0 && input < 10) {
                     System.out.printf("%s has chosen %s%n", currentPlayer.getName(), input);
@@ -85,7 +84,6 @@ public class Game {
 
                     if (gameBoard.updateBoard(input, currentPlayer)) {
                         if (turnCount >= 5) {
-//                            System.out.println("checking for winner");
                             if (gameBoard.checkForWinner(currentPlayer)) {
                                 gameOver = true;
                                 gameBoard.setWinner(currentPlayer);

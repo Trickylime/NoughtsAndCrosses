@@ -75,46 +75,43 @@ public class Board {
     }
 
     public boolean horizontalWin(String playerPiece) {
-        for (int i = 0; i < board.length; i++) {
-            int count = 0;
+
+        int count = 0;
+        for (String[] strings : board) {
             for (int j = 0; j < 3; j++) {
-                if (board[i][j].equals(playerPiece)) {
+                if (strings[j].equals(playerPiece))
                     count++;
-//                    System.out.println(board[i][j] + " piece found");
-//                    System.out.println("found " + playerPiece + " Count=" + count);
-
-                } else {
-//                    System.out.println("break " + playerPiece + " doesn't match " + board[i][j]);
+                else
                     break;
-                }
             }
-            if(count == 3) {
-                return true;
-            }
-
         }
-        return false;
 
+        return count == 3;
     }
 
     public boolean verticalWin(String playerPiece) {
 
+        int count = 0;
         for (int i = 0; i < board.length; i++) {
-            int count = 0;
-            for (int j = 0; j < board.length; j++) {
-                if (board[j][i].equals(playerPiece)) count++;
+            for (String[] strings : board) {
+                if (strings[i].equals(playerPiece)) count++;
                 else break;
             }
-            if(count == 3)
-                return true;
         }
-        return false;
+        return count == 3;
     }
 
     public boolean diagonalWin(String playerPiece) {
 
-
-        return false;
+        int j = 0;
+        int count = 0;
+        for (String[] strings : board) {
+            if (strings[j].equals(playerPiece)) {
+                count++;
+                j++;
+            } else break;
+        }
+        return count == 3;
     }
 
 
