@@ -1,11 +1,11 @@
 public class Board {
 
-    private String playerOne;
-    private String playerOnePiece;
-    private String playerTwo;
-    private String playerTwoPiece;
+    private final String playerOne;
+    private final String playerOnePiece;
+    private final String playerTwo;
+    private final String playerTwoPiece;
     private Player winner;
-    private String[][] board = new String[3][3];
+    private final String[][] board;
 
     public Player getWinner() {
         return winner;
@@ -26,9 +26,9 @@ public class Board {
     public String[][] populateBoard() {
 
         int count = 1;
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                board[i][j] = String.valueOf(count++);
+        for (int y = 0; y < board.length; y++) {
+            for (int x = 0; x < board.length; x++) {
+                board[y][x] = String.valueOf(count++);
             }
         }
 
@@ -52,10 +52,10 @@ public class Board {
 
     public boolean updateBoard(int input, Player currentPlayer) {
 
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                if (board[i][j].equals(String.valueOf(input))) {
-                    board[i][j] = currentPlayer.getNoughtsOrCrosses();
+        for (int y = 0; y < board.length; y++) {
+            for (int x = 0; x < board.length; x++) {
+                if (board[y][x].equals(String.valueOf(input))) {
+                    board[y][x] = currentPlayer.getNoughtsOrCrosses();
                     return true;
                 }
             }
@@ -69,17 +69,15 @@ public class Board {
         String playerPiece = currentPlayer.getNoughtsOrCrosses();
         if (horizontalWin(playerPiece)) return true;
         if (verticalWin(playerPiece)) return true;
-        if (diagonalWin(playerPiece)) return true;
-
-        return false;
+        return diagonalWin(playerPiece);
     }
 
     public boolean horizontalWin(String playerPiece) {
 
         int count = 0;
-        for (String[] strings : board) {
-            for (int j = 0; j < 3; j++) {
-                if (strings[j].equals(playerPiece))
+        for (String[] y : board) {
+            for (int x = 0; x < 3; x++) {
+                if (y[x].equals(playerPiece))
                     count++;
                 else
                     break;
@@ -92,9 +90,9 @@ public class Board {
     public boolean verticalWin(String playerPiece) {
 
         int count = 0;
-        for (int i = 0; i < board.length; i++) {
-            for (String[] strings : board) {
-                if (strings[i].equals(playerPiece)) count++;
+        for (int y = 0; y < board.length; y++) {
+            for (String[] x : board) {
+                if (x[y].equals(playerPiece)) count++;
                 else break;
             }
         }
@@ -104,24 +102,24 @@ public class Board {
     public boolean diagonalWin(String playerPiece) {
 
         //Check top left to bottom right
-        int j = 0;
+        int x = 0;
         int count = 0;
-        for (String[] strings : board) {
-            if (strings[j].equals(playerPiece)) {
+        for (String[] y : board) {
+            if (y[x].equals(playerPiece)) {
                 count++;
-                j++;
+                x++;
 
                 if (count == 3) return true;
             } else break;
         }
 
         //Check top right to bottom left
-        j = 2;
+        x = 2;
         count = 0;
-        for (String[] strings : board) {
-            if (strings[j].equals(playerPiece)) {
+        for (String[] y : board) {
+            if (y[x].equals(playerPiece)) {
                 count++;
-                j--;
+                x--;
             } else break;
         }
         return count == 3;
