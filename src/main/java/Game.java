@@ -85,6 +85,8 @@ public class Game {
 
                     if (gameBoard.updateBoard(input, currentPlayer)) {
                         if (turnCount >= 5) {
+                            System.out.println("checking for winner");
+
                             if (gameBoard.checkForWinner(currentPlayer)) {
                                 gameOver = true;
                                 gameBoard.setWinner(currentPlayer);

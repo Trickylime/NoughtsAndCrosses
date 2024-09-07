@@ -87,15 +87,15 @@ public class Board {
         int count = 0;
         for (String[] y : board) {
             count = 0;
-            for (int x = 0; x < 3; x++) {
-                if (y[x].equals(playerPiece))
+            for (int x = 0; x < board.length; x++) {
+                if (y[x].equals(playerPiece)) {
                     count++;
-                else
+                } else
                     break;
+                if (count == 3) return true;
             }
         }
-
-        return count == 3;
+        return false;
     }
 
     public boolean verticalWin(String playerPiece) {
@@ -106,9 +106,10 @@ public class Board {
             for (String[] x : board) {
                 if (x[y].equals(playerPiece)) count++;
                 else break;
+                if (count == 3) return true;
             }
         }
-        return count == 3;
+        return false;
     }
 
     public boolean diagonalWin(String playerPiece) {
