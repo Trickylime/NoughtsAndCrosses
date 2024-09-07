@@ -21,6 +21,7 @@ public class Game {
         gameBoard = initializeGame();
 
         startGame();
+
     }
 
     private static void createPlayers() {
@@ -102,6 +103,32 @@ public class Game {
 
         }
 
-        System.out.println(gameBoard.getWinner().getName() + " is the winner!");
+        endGame();
+    }
+
+    private static void endGame() {
+
+        System.out.println(gameBoard.printBoard());
+        gameBoard.getWinner().setScore(+1);
+        System.out.printf("""
+                Congratulations! %s is the winner!
+                The Score is
+                %s - %d
+                %s - %d
+                        
+                Would you like to play again? (y/n)
+                %n""", gameBoard.getWinner().getName(), playerOne.getName(), playerOne.getScore(), playerTwo.getName(), playerTwo.getScore());
+
+        while (true) {
+            String input = scanner.nextLine().toUpperCase();
+            if (input.equals("Y") || input.equals("YES")) {
+                initializeGame();
+                startGame();
+            } else {
+                System.out.println("Game Over, Thanks for playing!");
+                break;
+            }
+        }
+
     }
 }

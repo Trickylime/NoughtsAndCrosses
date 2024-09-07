@@ -5,7 +5,7 @@ public class Board {
     private final String playerTwo;
     private final String playerTwoPiece;
     private Player winner;
-    private final String[][] board;
+    private String[][] board = new String[3][3];
 
     public Player getWinner() {
         return winner;
@@ -67,15 +67,26 @@ public class Board {
     public boolean checkForWinner(Player currentPlayer) {
 
         String playerPiece = currentPlayer.getNoughtsOrCrosses();
-        if (horizontalWin(playerPiece)) return true;
-        if (verticalWin(playerPiece)) return true;
-        return diagonalWin(playerPiece);
+        if (horizontalWin(playerPiece)) {
+            System.out.println("Horizontal Win");
+            return true;
+        }
+        if (verticalWin(playerPiece)) {
+            System.out.println("Vertical Win");
+            return true;
+        }
+        if (diagonalWin(playerPiece)) {
+            System.out.println("Diagonal Win");
+            return true;
+        }
+        return false;
     }
 
     public boolean horizontalWin(String playerPiece) {
 
         int count = 0;
         for (String[] y : board) {
+            count = 0;
             for (int x = 0; x < 3; x++) {
                 if (y[x].equals(playerPiece))
                     count++;
@@ -91,6 +102,7 @@ public class Board {
 
         int count = 0;
         for (int y = 0; y < board.length; y++) {
+            count = 0;
             for (String[] x : board) {
                 if (x[y].equals(playerPiece)) count++;
                 else break;
