@@ -119,7 +119,7 @@ public class Game {
                 %s - %d
                         
                 Would you like to play again? (y/n)
-                %n""", gameBoard.getWinner().getName(), playerOne.getName(), playerOne.getScore(), playerTwo.getName(), playerTwo.getScore());
+                """, gameBoard.getWinner().getName(), playerOne.getName(), playerOne.getScore(), playerTwo.getName(), playerTwo.getScore());
 
         while (true) {
             String input = scanner.nextLine().toUpperCase();

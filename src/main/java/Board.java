@@ -67,19 +67,9 @@ public class Board {
     public boolean checkForWinner(Player currentPlayer) {
 
         String playerPiece = currentPlayer.getNoughtsOrCrosses();
-        if (horizontalWin(playerPiece)) {
-            System.out.println("Horizontal Win");
-            return true;
-        }
-        if (verticalWin(playerPiece)) {
-            System.out.println("Vertical Win");
-            return true;
-        }
-        if (diagonalWin(playerPiece)) {
-            System.out.println("Diagonal Win");
-            return true;
-        }
-        return false;
+        if (horizontalWin(playerPiece)) return true;
+        if (verticalWin(playerPiece)) return true;
+        return diagonalWin(playerPiece);
     }
 
     public boolean horizontalWin(String playerPiece) {
@@ -121,7 +111,6 @@ public class Board {
             if (y[x].equals(playerPiece)) {
                 count++;
                 x++;
-
                 if (count == 3) return true;
             } else break;
         }
