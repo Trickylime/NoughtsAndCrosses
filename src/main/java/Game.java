@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -5,26 +6,16 @@ import java.util.Scanner;
 public class Game {
 
     static Scanner scanner = new Scanner(System.in);
-    private static Player playerOne;
-    private static Player playerTwo;
-    private static Player currentPlayer;
-    private static boolean firstGame = true;
-    private static Board gameBoard;
+    private Player playerOne;
+    private Player playerTwo;
+    private Player currentPlayer;
+    private Board gameBoard;
+    private boolean gameOver = false;
 
-    public static void main(String[] args) {
-
-        if (firstGame) {
-            createPlayers();
-            firstGame = false;
-        }
-
-        gameBoard = initializeGame();
-
-        startGame();
-
+    public Game() {
     }
 
-    private static void createPlayers() {
+    public void createPlayers() {
         System.out.println("-".repeat(30));
 
         System.out.println("Please Enter Player One's name");
@@ -36,7 +27,7 @@ public class Game {
         System.out.println("-".repeat(30));
     }
 
-    public static Board initializeGame() {
+    public Board initializeGame() {
 
         // Select a random player to go first and choose which piece they would like to play as
         Random random = new Random();
@@ -67,70 +58,97 @@ public class Game {
                 playerTwo.getNoughtsOrCrosses());
     }
 
-    public static void startGame() {
+    public void startGame() {
 
+        gameBoard = initializeGame();
         int turnCount = 0;
-        boolean gameOver = false;
+
         while (!gameOver) {
 
             System.out.println(gameBoard.printBoard());
             System.out.printf("It's %s's turn! Please enter a number of where you like to make your move%n", currentPlayer.getName());
 
             while (true) {
-                turnCount++;
-                int input = scanner.nextInt();
-                if (input > 0 && input < 10) {
-                    System.out.printf("%s has chosen %s%n", currentPlayer.getName(), input);
 
+                try {
+                    //Take inputs and add them to the board while there isn't a winner
+                    int input = scanner.nextInt();
 
-                    if (gameBoard.updateBoard(input, currentPlayer)) {
-                        if (turnCount >= 5) {
-                            System.out.println("checking for winner");
+                    turnCount++;
 
-                            if (gameBoard.checkForWinner(currentPlayer)) {
-                                gameOver = true;
-                                gameBoard.setWinner(currentPlayer);
-                            }
-                        }
-                        currentPlayer = currentPlayer == playerOne ? playerTwo : playerOne;
+                    //Check for a draw
+                    if (turnCount > 9) {
+                        gameOver = true;
                         break;
-                    } else System.out.println("Invalid input. That position has already been used. " +
-                            "Please enter a number that's available on the board.");
+                    }
 
-                } else {
+                    if (input > 0 && input < 10) {
+                        System.out.printf("%s has chosen %s%n", currentPlayer.getName(), input);
+
+                        if (gameBoard.updateBoard(input, currentPlayer)) {
+                            if (turnCount >= 5) {
+                                System.out.println("checking for winner");
+
+                                if (gameBoard.checkForWinner(currentPlayer)) {
+                                    gameOver = true;
+                                    gameBoard.setWinner(currentPlayer);
+                                }
+                            }
+                            currentPlayer = currentPlayer == playerOne ? playerTwo : playerOne;
+                            break;
+                        } else System.out.println("Invalid input. That position has already been used. " +
+                                "Please enter a number that's available on the board.");
+
+                    } else {
+                        System.out.println("Invalid input. Please enter a number between 1 and 9 and is currently available on the board.");
+                    }
+                } catch (InputMismatchException e) {
                     System.out.println("Invalid input. Please enter a number between 1 and 9 and is currently available on the board.");
+                    scanner.next();  // Clear the invalid input from the scanner
                 }
+
             }
-
-
         }
-
-        endGame();
     }
 
-    private static void endGame() {
+    public boolean endGame() {
 
         System.out.println(gameBoard.printBoard());
-        gameBoard.getWinner().setScore(+1);
-        System.out.printf("""
+
+        if (gameBoard.getWinner() != null) {
+            gameBoard.getWinner().setScore(1);
+            System.out.printf("""
                 Congratulations! %s is the winner!
+                """, gameBoard.getWinner().getName());
+        } else
+            System.out.println("Surprise, surprise... It's a draw!");
+
+        System.out.printf("""
                 The Score is
                 %s - %d
                 %s - %d
-                        
-                Would you like to play again? (y/n)
-                """, gameBoard.getWinner().getName(), playerOne.getName(), playerOne.getScore(), playerTwo.getName(), playerTwo.getScore());
+                """, playerOne.getName(), playerOne.getScore(), playerTwo.getName(), playerTwo.getScore());
+
+        // Consume any leftover newline character
+        scanner.nextLine();
 
         while (true) {
+            System.out.println("Would you like to play again? (y/n)");
             String input = scanner.nextLine().toUpperCase();
             if (input.equals("Y") || input.equals("YES")) {
-                initializeGame();
-                startGame();
-            } else {
+                return false;
+            } else if (input.equals("N") || input.equals("NO")){
                 System.out.println("Game Over, Thanks for playing!");
                 break;
+            } else {
+                System.out.println("Invalid Input");
             }
         }
 
+        return true;
+    }
+
+    public Board getGameBoard() {
+        return gameBoard;
     }
 }

@@ -1,6 +1,6 @@
 public class Player {
 
-    private String name;
+    private final String name;
     private int score;
     private String noughtsOrCrosses;
 
@@ -17,7 +17,7 @@ public class Player {
     }
 
     public void setScore(int score) {
-        this.score = score;
+        this.score += score;
     }
 
     public String getNoughtsOrCrosses() {
