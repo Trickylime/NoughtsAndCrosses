@@ -32,7 +32,7 @@ Setup
 
 Clone the repository:
 
-    git clone https://github.com/username/noughts-and-crosses-java.git
+    git clone https://github.com/Trickylime/NoughtsAndCrosses
 
 Navigate to the project directory:
 
