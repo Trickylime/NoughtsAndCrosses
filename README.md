@@ -90,7 +90,7 @@ Game Flow
     Random Player Selection: A random player is selected to choose whether they want to play with "X" or "O".
     Grid: The game displays a 3x3 grid with numbers representing available positions.
     Player Input: Players take turns entering numbers to make their moves.
-    Winner Check: After each turn, the game checks for a winner. If no winner is found and all spaces are filled, the game ends in a draw.
+    Winner Check: Each turn after 5 turns, the game checks for a winner. If no winner is found and all spaces are filled, the game ends in a draw.
     End Game: The game displays the result and the current score tally. Players can then choose to play again or quit.
 
 Score System
@@ -106,8 +106,7 @@ Example End-Game Scoreboard
     The Score is
     John - 0
     Jane - 1
-
-Would you like to play again? (y/n)
+    Would you like to play again? (y/n)
 
 License
 
