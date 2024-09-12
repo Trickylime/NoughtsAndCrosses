@@ -7,14 +7,6 @@ public class Board {
     private Player winner;
     private String[][] board = new String[3][3];
 
-    public Player getWinner() {
-        return winner;
-    }
-
-    public void setWinner(Player winner) {
-        this.winner = winner;
-    }
-
     public Board(String playerOne, String playerOnePiece, String playerTwo, String playerTwoPiece) {
         this.playerOne = playerOne;
         this.playerOnePiece = playerOnePiece;
@@ -127,21 +119,12 @@ public class Board {
         return count == 3;
     }
 
-
-    public String getPlayerOne() {
-        return playerOne;
+    public Player getWinner() {
+        return winner;
     }
 
-    public String getPlayerOnePiece() {
-        return playerOnePiece;
-    }
-
-    public String getPlayerTwo() {
-        return playerTwo;
-    }
-
-    public String getPlayerTwoPiece() {
-        return playerTwoPiece;
+    public void setWinner(Player winner) {
+        this.winner = winner;
     }
 
 }
