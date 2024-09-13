@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Game {
 
-    static Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
     private Player playerOne;
     private Player playerTwo;
     private Player currentPlayer;
@@ -149,7 +149,4 @@ public class Game {
         return true;
     }
 
-    public Board getGameBoard() {
-        return gameBoard;
-    }
 }
