@@ -5,14 +5,15 @@ import java.util.Scanner;
 
 public class Game {
 
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
     private Player playerOne;
     private Player playerTwo;
     private Player currentPlayer;
     private Board gameBoard;
     private boolean gameOver = false;
 
-    public Game() {
+    public Game(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     public void createPlayers() {

@@ -1,8 +1,11 @@
+import java.util.Scanner;
+
 public class NoughtsAndCrossesApplication {
 
     public static void main(String[] args) {
 
-        Game game = new Game();
+        Scanner scanner = new Scanner(System.in);
+        Game game = new Game(scanner);
         boolean gameOver = false;
         boolean firstGame = true;
 
